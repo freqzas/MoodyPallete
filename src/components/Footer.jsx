@@ -7,7 +7,7 @@ export default function Footer() {
       </p>
 
       <p className="mt-2 text-xs text-slate-500">
-        @copy; 2026  MoodyPalette · A free tool.
+        &copy; 2026  MoodyPalette · A free tool.
       </p>
     </footer>
   );
