@@ -428,13 +428,21 @@ export default function PreviewPage() {
       }}
     >
       <section className="mx-auto max-w-[1500px] px-5 py-8 sm:px-7 lg:px-10">
-        <header className="mb-8 flex items-center justify-between">
-          <a href="/" className="text-sm font-bold opacity-75 transition hover:opacity-100">
-            ← Back
-          </a>
+        <header className="mb-6 flex items-center justify-center">
+          <div className="relative overflow-hidden rounded-full border border-cyan-300/20 bg-black/45 px-4 py-2 text-xs font-black tracking-[0.08em] shadow-xl shadow-cyan-950/25 backdrop-blur-xl">
+            <span className="absolute inset-0 bg-gradient-to-r from-purple-500/15 via-black/20 to-cyan-400/15" />
 
-          <div className="rounded-full border border-white/10 text-purple-200/95 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur-xl">
-           Moody<span className="text-teal-200">Palette</span> <span className="text-white">Preview</span>
+            <span className="relative z-10">
+              <span className="bg-gradient-to-r from-purple-300 to-rose-300 bg-clip-text text-transparent">
+                Moody
+              </span>
+              <span className="bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+                Palette
+              </span>
+              <span className="ml-1 text-white/90">
+                Preview
+              </span>
+            </span>
           </div>
         </header>
 
@@ -490,21 +498,19 @@ export default function PreviewPage() {
               >
                 {active.name} visual tone
               </p>
-
-              <h1 className="max-w-5xl font-['Space_Grotesk'] text-4xl font-semibold leading-[0.95] tracking-[-0.065em] sm:text-6xl lg:text-7xl">
-                  One structure.
-                  <span
-                    className="block bg-clip-text text-transparent"
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, ${active.colors.primary}, ${active.colors.secondary})`,
-                    }}
-                  >
-                    Different mood.
+              <h1 className="max-w-5xl text-[2.85rem] font-light leading-[1.02] tracking-[-0.045em] text-white sm:text-5xl lg:text-5xl">
+                One structure.
+                <span
+                  className="block bg-clip-text text-transparent text-[3.5rem] lg:text-6xl"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${active.colors.primary}, ${active.colors.secondary})`,
+                  }}
+                >
+                  Different <span className="bg-gradient-to-r from-purple-300 to-rose-300 bg-clip-text text-transparent"> mood </span>
                 </span>
               </h1>
-
               <p
-                className="mt-5 max-w-3xl text-base leading-8 sm:text-lg"
+                className="mt-5 pl-1 max-w-3xl leading-8 text-md"
                 style={{ color: active.colors.muted }}
               >
                 {active.formula}

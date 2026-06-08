@@ -147,14 +147,16 @@ export default function HomePage() {
                 Design Psychology · Palette Logic
               </p>
 
-             <h1 className="text-[4rem] font-semibold leading-[0.92] tracking-[-0.07em] sm:text-7xl lg:text-7xl">
-               <span className="text-purple-200">Moody</span><span className="text-teal-200">Palette</span>
-               <span className="block text-[3.5rem] mt-6 bg-gradient-to-r from-teal-400/80 to-blue-400/80 bg-clip-text text-transparent">
+             <h1 className="text-[3.5rem] leading-[0.92] tracking-[-0.06em] sm:text-7xl lg:text-7xl">
+                <span className="relative z-10 bg-gradient-to-r font-light from-purple-400 to-rose-400/80 bg-clip-text text-transparent drop-shadow-[0_0_12px_rgba(168,85,247,0.45)]"> Moody </span>
+
+                <span className="relative z-10 bg-gradient-to-r from-emerald-400/80 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_6px_rgba(34,211,238,0.45)]"> Palette </span>
+               <span className="block text-[2.85rem] font-light mt-4 bg-gradient-to-r from-teal-400/80 to-blue-400/80 bg-clip-text text-transparent">
                  Colour System
                </span>
              </h1>
 
-              <p className="mt-6 max-w-2xl text-sm text-base leading-7 text-slate-300">
+              <p className="mt-4 max-w-2xl ml-1 text-sm text-base leading-7 text-slate-300">
                 A compact system for turning emotion, niche, status, and offer
                 into a colour palette that matches the product atmosphere.
               </p>
