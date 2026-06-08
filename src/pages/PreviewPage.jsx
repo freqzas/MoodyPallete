@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import Footer from "../components/Footer";
 const palettes = [
   {
     id: "cv",
@@ -891,6 +891,7 @@ export default function PreviewPage() {
           </AnimatePresence>
         </section>
       </section>
+      <Footer />
     </main>
   );
 }

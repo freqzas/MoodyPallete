@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-
+import Footer from "../components/Footer";
 const groups = [
   {
     title: "The Power Colors",
@@ -299,6 +299,7 @@ export default function HomePage() {
           </section>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
