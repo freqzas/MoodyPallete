@@ -131,10 +131,10 @@ export default function StudioPage() {
     setTimeout(() => setToast(""), 1800);
   };
 
-  const copyValue = async (value) => {
+  const copyValue = async (value, message) => {
     try {
       await navigator.clipboard.writeText(value);
-      flash(`Copied ${value}`);
+      flash(message ?? `Copied ${value}`);
     } catch {
       flash("Copy failed");
     }

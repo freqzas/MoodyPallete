@@ -23,10 +23,10 @@ export default function PreviewPage() {
     ? custom
     : palettes.find((p) => p.id === activeId) ?? palettes[0];
 
-  const copyColor = async (value) => {
+  const copyColor = async (value, message) => {
     try {
       await navigator.clipboard.writeText(value);
-      setToast(`Copied ${value}`);
+      setToast(message ?? `Copied ${value}`);
     } catch {
       setToast("Copy failed");
     }

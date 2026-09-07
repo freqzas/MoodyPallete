@@ -9,6 +9,7 @@ import {
 } from "../lib/contrast";
 import { COLOR_ROLES, CONTRAST_PAIRS } from "../lib/theme";
 import { MOODS, DEFAULT_MOOD } from "../lib/generate";
+import PaletteExport from "./PaletteExport";
 
 const normalizeHex = (value) => toHex(parseHex(value));
 
@@ -238,6 +239,8 @@ export default function PaletteEditor({
           {MOODS.find((item) => item.id === mood)?.blurb}
         </p>
       </div>
+
+      <PaletteExport palette={palette} onCopy={onCopy} />
     </div>
   );
 }
