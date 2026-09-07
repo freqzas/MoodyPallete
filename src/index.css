@@ -2,9 +2,53 @@
 
 @import "tailwindcss";
 
-body {
- font-family: "Inter", sans-serif;
+/*
+ * `inline` matters here. Without it Tailwind emits
+ * `--color-mp-bg: var(--mp-bg)` on :root, which resolves once at :root and is
+ * then inherited as a fixed value -- so overriding --mp-bg further down the
+ * tree would do nothing. `inline` puts `var(--mp-bg)` directly into the
+ * generated utility, so it resolves at the element and picks up the nearest
+ * themed wrapper. That is what makes runtime palette swapping work.
+ */
+@theme inline {
+  --color-mp-bg: var(--mp-bg);
+  --color-mp-surface: var(--mp-surface);
+  --color-mp-text: var(--mp-text);
+  --color-mp-muted: var(--mp-muted);
+  --color-mp-primary: var(--mp-primary);
+  --color-mp-secondary: var(--mp-secondary);
+  --color-mp-accent: var(--mp-accent);
+  --color-mp-button: var(--mp-button);
+
+  --color-mp-on-button: var(--mp-on-button);
+  --color-mp-on-primary: var(--mp-on-primary);
+  --color-mp-on-accent: var(--mp-on-accent);
+  --color-mp-primary-ink: var(--mp-primary-ink);
+  --color-mp-secondary-ink: var(--mp-secondary-ink);
 }
+
+/* Fallbacks so mp-* utilities still render outside a themed wrapper. */
+:root {
+  --mp-bg: #101923;
+  --mp-surface: #172331;
+  --mp-text: #ffffff;
+  --mp-muted: #cbd5e1;
+  --mp-primary: #7dd3fc;
+  --mp-secondary: #14b8a6;
+  --mp-accent: #67e8f9;
+  --mp-button: #14b8a6;
+
+  --mp-on-button: #0a0f16;
+  --mp-on-primary: #0a0f16;
+  --mp-on-accent: #0a0f16;
+  --mp-primary-ink: #7dd3fc;
+  --mp-secondary-ink: #14b8a6;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
 button {
- cursor: pointer;
+  cursor: pointer;
 }
