@@ -2,14 +2,20 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import HomePage from "./pages/HomePage";
 import PreviewPage from "./pages/PreviewPage";
+import StudioPage from "./pages/StudioPage";
 
 const pages = [
   { id: "home", label: "Home" },
   { id: "preview", label: "Preview" },
+  { id: "studio", label: "Studio" },
 ];
 
+/**
+ * The hash can carry state as well as a page id -- `#studio?s=v1.xxxx` -- so
+ * everything from the first `?` belongs to the page, not to routing.
+ */
 function getPageFromHash() {
-  const hash = window.location.hash.replace("#", "");
+  const hash = window.location.hash.replace("#", "").split("?")[0];
   return pages.some((page) => page.id === hash) ? hash : "home";
 }
 
@@ -224,7 +230,9 @@ export default function App() {
         </div>
       </header>
       <div className="pt-26">
-        {page === "home" ? <HomePage /> : <PreviewPage />}
+        {page === "home" && <HomePage />}
+        {page === "preview" && <PreviewPage />}
+        {page === "studio" && <StudioPage />}
       </div>
     </>
   );

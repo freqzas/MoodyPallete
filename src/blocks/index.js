@@ -8,37 +8,47 @@ import {
 } from "./marketing";
 import { PricingTiers, CardList, CheckoutSummary } from "./commerce";
 import { DashboardPanel, FormSignup } from "./app";
+import { catalog } from "./catalog";
+
+export { blockCategories, catalogIds, isKnownBlockId } from "./catalog";
 
 /**
- * The block registry.
+ * The block registry: catalogue metadata joined to its components.
+ *
+ * Metadata lives in `catalog.js` (plain JS) so Node scripts can read it
+ * without a bundler; the components live here because they need JSX.
  *
  * A screen preset is an array of these ids, and the studio's canvas is the
- * same array made editable -- so anything added here becomes available to both
- * without further wiring.
- *
- * `category` groups blocks in the library panel.
+ * same array made editable -- so anything added to both files becomes
+ * available to both surfaces without further wiring.
  */
-export const blocks = [
-  { id: "nav-bar", name: "Nav bar", category: "Structure", Component: NavBar },
-  { id: "footer-simple", name: "Footer", category: "Structure", Component: FooterSimple },
+const components = {
+  "nav-bar": NavBar,
+  "footer-simple": FooterSimple,
+  "hero-split": HeroSplit,
+  "hero-centered": HeroCentered,
+  "feature-grid": FeatureGrid,
+  "stat-row": StatRow,
+  "testimonial": Testimonial,
+  "cta-banner": CtaBanner,
+  "pricing-tiers": PricingTiers,
+  "card-list": CardList,
+  "checkout-summary": CheckoutSummary,
+  "dashboard-panel": DashboardPanel,
+  "form-signup": FormSignup,
+};
 
-  { id: "hero-split", name: "Hero (split)", category: "Marketing", Component: HeroSplit },
-  { id: "hero-centered", name: "Hero (centred)", category: "Marketing", Component: HeroCentered },
-  { id: "feature-grid", name: "Feature grid", category: "Marketing", Component: FeatureGrid },
-  { id: "stat-row", name: "Stat row", category: "Marketing", Component: StatRow },
-  { id: "testimonial", name: "Testimonial", category: "Marketing", Component: Testimonial },
-  { id: "cta-banner", name: "CTA banner", category: "Marketing", Component: CtaBanner },
+export const blocks = catalog
+  .filter((entry) => {
+    if (components[entry.id]) return true;
 
-  { id: "pricing-tiers", name: "Pricing tiers", category: "Commerce", Component: PricingTiers },
-  { id: "card-list", name: "Product cards", category: "Commerce", Component: CardList },
-  { id: "checkout-summary", name: "Checkout", category: "Commerce", Component: CheckoutSummary },
-
-  { id: "dashboard-panel", name: "Dashboard", category: "App", Component: DashboardPanel },
-  { id: "form-signup", name: "Signup form", category: "App", Component: FormSignup },
-];
+    // A catalogue entry with no component would render an empty slot, which is
+    // far more confusing than it simply not being offered.
+    console.warn(`[blocks] "${entry.id}" is in the catalogue but has no component`);
+    return false;
+  })
+  .map((entry) => ({ ...entry, Component: components[entry.id] }));
 
 export const blockMap = Object.fromEntries(blocks.map((block) => [block.id, block]));
 
 export const getBlock = (id) => blockMap[id];
-
-export const blockCategories = [...new Set(blocks.map((block) => block.category))];
