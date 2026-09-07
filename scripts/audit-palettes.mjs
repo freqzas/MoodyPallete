@@ -14,6 +14,8 @@ import {
   contrastRatio,
   bestOn,
   readableOnAll,
+  solidFill,
+  blend,
   toHex,
   hslToRgb,
   AA_NORMAL,
@@ -27,15 +29,37 @@ const checks = (c) => [
   { label: "muted/bg", ratio: contrastRatio(c.muted, c.bg), min: AA_NORMAL },
   { label: "muted/surf", ratio: contrastRatio(c.muted, c.surface), min: AA_NORMAL },
   { label: "btn ink", ratio: contrastRatio(bestOn(c.button), c.button), min: AA_NORMAL },
+
+  // Every filled control in the app chrome uses `control` with a white label.
+  { label: "control ink", ratio: contrastRatio("#ffffff", solidFill(c.primary)), min: AA_NORMAL },
   // Ink is checked against whichever background is worse, because blocks put
   // it on cards (surface) and straight onto the canvas (bg).
   {
     label: "primary ink",
-    ratio: Math.min(
-      contrastRatio(readableOnAll(c.primary, [c.bg, c.surface]), c.surface),
-      contrastRatio(readableOnAll(c.primary, [c.bg, c.surface]), c.bg)
-    ),
+    ratio: (() => {
+      const grounds = [
+        c.bg,
+        c.surface,
+        blend(c.primary, 0.2, c.bg),
+        blend(c.primary, 0.2, c.surface),
+      ];
+      const ink = readableOnAll(c.primary, grounds);
+      return Math.min(...grounds.map((g) => contrastRatio(ink, g)));
+    })(),
     min: AA_NORMAL,
+  },
+
+  /*
+   * Advisory: the best ink available on the raw primary. Nothing fills with
+   * `primary` any more -- app chrome and filled badges use `control`, which is
+   * gated above -- but the token still exists, and a low number here is worth
+   * seeing before anyone reaches for it.
+   */
+  {
+    label: "on-primary",
+    ratio: contrastRatio(bestOn(c.primary), c.primary),
+    min: AA_NORMAL,
+    advisory: true,
   },
 
   // Advisory: `primary` is designed as a fill, and several palettes use a soft
@@ -85,7 +109,7 @@ for (const palette of palettes) {
 console.log("");
 
 if (advisories.length) {
-  console.log(`${advisories.length} advisory — soft primary, fine as a fill:`);
+  console.log(`${advisories.length} advisory (not gated):`);
   for (const advisory of advisories) console.log(`  ~ ${advisory}`);
   console.log("");
 }

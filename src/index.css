@@ -20,6 +20,8 @@
   --color-mp-accent: var(--mp-accent);
   --color-mp-button: var(--mp-button);
 
+  --color-mp-control: var(--mp-control);
+  --color-mp-on-control: var(--mp-on-control);
   --color-mp-on-button: var(--mp-on-button);
   --color-mp-on-primary: var(--mp-on-primary);
   --color-mp-on-accent: var(--mp-on-accent);
@@ -38,6 +40,8 @@
   --mp-accent: #67e8f9;
   --mp-button: #14b8a6;
 
+  --mp-control: #1f6f92;
+  --mp-on-control: #ffffff;
   --mp-on-button: #0a0f16;
   --mp-on-primary: #0a0f16;
   --mp-on-accent: #0a0f16;

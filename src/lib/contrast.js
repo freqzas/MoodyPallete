@@ -59,6 +59,27 @@ export function withAlpha(value, alpha) {
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${clamp(alpha, 0, 1)})`;
 }
 
+/**
+ * Flatten a translucent colour over an opaque one.
+ *
+ * Tailwind's `/15` opacity modifiers composite at paint time, so a chip with
+ * `bg-mp-primary/15` sits on a colour that is neither `bg` nor `surface`. Ink
+ * derived only against those two can miss AA on the tint -- so we compute the
+ * composite and check against that too.
+ */
+export function blend(foreground, alpha, background) {
+  const f = parseHex(foreground);
+  const b = parseHex(background);
+  if (!f || !b) return background;
+
+  const a = clamp(alpha, 0, 1);
+  return toHex({
+    r: f.r * a + b.r * (1 - a),
+    g: f.g * a + b.g * (1 - a),
+    b: f.b * a + b.b * (1 - a),
+  });
+}
+
 /* ------------------------------------------------------------------ *
  * HSL — used to nudge a colour toward legibility while keeping its hue
  * ------------------------------------------------------------------ */
@@ -232,13 +253,10 @@ export function readableOnAll(color, backgrounds, target = AA_NORMAL) {
  * black clears AA on them. Darkening until white works is the conventional
  * escape, and keeps the hue.
  */
-export function ensureLabelSafe(color, target = AA_NORMAL) {
-  if (!isValidColor(color)) return color;
-  if (contrastRatio(bestOn(color), color) >= target) return color;
-
+function darkenUntilWhiteReads(color, target) {
   const hsl = rgbToHsl(parseHex(color));
 
-  for (let step = 1; step <= 100; step += 1) {
+  for (let step = 0; step <= 100; step += 1) {
     const l = clamp(hsl.l - step * 0.01, 0, 1);
     const candidate = toHex(hslToRgb({ ...hsl, l }));
 
@@ -246,5 +264,26 @@ export function ensureLabelSafe(color, target = AA_NORMAL) {
     if (l === 0) break;
   }
 
-  return color;
+  return null;
+}
+
+export function ensureLabelSafe(color, target = AA_NORMAL) {
+  if (!isValidColor(color)) return color;
+  if (contrastRatio(bestOn(color), color) >= target) return color;
+
+  return darkenUntilWhiteReads(color, target) ?? color;
+}
+
+/**
+ * A fill that is guaranteed to carry a white label, keeping the hue.
+ *
+ * `bestOn` picks whichever ink has more contrast, which for a bright brand
+ * colour is usually the dark one -- legible by the numbers, but dark text on
+ * saturated pink or blue reads as a mistake, and it lands near the 4.5 floor.
+ * Interface controls want the conventional look instead: darken the colour far
+ * enough that white wins outright.
+ */
+export function solidFill(color, target = 5) {
+  if (!isValidColor(color)) return color;
+  return darkenUntilWhiteReads(color, target) ?? color;
 }

@@ -54,7 +54,7 @@ export default function PaletteExport({ palette, onCopy }) {
               aria-pressed={selected}
               className={`rounded-lg border px-3 py-1.5 text-xs font-black transition ${
                 selected
-                  ? "border-mp-primary bg-mp-primary text-mp-on-primary"
+                  ? "border-mp-control bg-mp-control text-mp-on-control"
                   : "border-mp-primary/25 bg-mp-bg/30 text-mp-text"
               }`}
             >
@@ -75,7 +75,7 @@ export default function PaletteExport({ palette, onCopy }) {
         <button
           type="button"
           onClick={() => onCopy(text, `Copied ${format.label} export`)}
-          className="rounded-lg bg-mp-button px-4 py-2 text-xs font-black text-mp-on-button transition hover:-translate-y-0.5"
+          className="rounded-lg bg-mp-control px-4 py-2 text-xs font-black text-mp-on-control transition hover:-translate-y-0.5"
         >
           Copy
         </button>

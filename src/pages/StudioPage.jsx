@@ -247,7 +247,7 @@ export default function StudioPage() {
             <button
               type="button"
               onClick={share}
-              className="rounded-xl bg-mp-button px-4 py-2 text-sm font-black text-mp-on-button transition hover:-translate-y-0.5"
+              className="rounded-xl bg-mp-control px-4 py-2 text-sm font-black text-mp-on-control transition hover:-translate-y-0.5"
             >
               Share link
             </button>

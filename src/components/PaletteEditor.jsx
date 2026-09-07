@@ -225,7 +225,7 @@ export default function PaletteEditor({
           <button
             type="button"
             onClick={() => onGenerate(base, mood)}
-            className="rounded-xl bg-mp-button px-4 py-2.5 text-sm font-black text-mp-on-button transition hover:-translate-y-0.5"
+            className="rounded-xl bg-mp-control px-4 py-2.5 text-sm font-black text-mp-on-control transition hover:-translate-y-0.5"
           >
             Generate
           </button>

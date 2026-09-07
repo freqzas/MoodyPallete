@@ -1,4 +1,4 @@
-import { bestOn, readableOnAll } from "./contrast.js";
+import { bestOn, readableOnAll, solidFill, blend } from "./contrast.js";
 
 /**
  * Turns a palette into the `--mp-*` custom properties that drive every
@@ -13,7 +13,22 @@ import { bestOn, readableOnAll } from "./contrast.js";
  *   --mp-on-button / --mp-on-primary   label ink, picked by contrast
  *   --mp-primary-ink                   primary nudged until it reads as text
  */
+// The heaviest tint the interface paints behind ink text (`bg-mp-primary/20`).
+const TINT = 0.2;
+
 export function paletteToCssVars(colors) {
+  /*
+   * Ink has to survive four backgrounds, not two: the plain surfaces, and the
+   * translucent brand tints painted over each of them. On a light palette a
+   * tint darkens the ground and quietly costs dark ink its AA margin.
+   */
+  const inkBackgrounds = (role) => [
+    colors.bg,
+    colors.surface,
+    blend(colors[role], TINT, colors.bg),
+    blend(colors[role], TINT, colors.surface),
+  ];
+
   return {
     "--mp-bg": colors.bg,
     "--mp-surface": colors.surface,
@@ -25,15 +40,33 @@ export function paletteToCssVars(colors) {
     "--mp-button": colors.button,
 
     "--mp-on-button": bestOn(colors.button),
-    "--mp-on-primary": bestOn(colors.primary),
     "--mp-on-accent": bestOn(colors.accent),
+
+    /*
+     * `on-primary` is whatever ink reads best on the raw primary. It is honest
+     * but limited: on a bright primary the winner is dark ink, sometimes only
+     * just above the floor, and there is no ink that fixes a colour which is
+     * simply mid-toned. Prefer `control` below for anything the interface
+     * fills and labels.
+     */
+    "--mp-on-primary": bestOn(colors.primary),
+
+    /*
+     * The interface's own filled controls -- selected chips, active tabs,
+     * primary actions in the app chrome. Derived so a white label always reads,
+     * which keeps app controls consistent instead of flipping ink per palette.
+     * Prototype blocks deliberately do NOT use this: they use `button`, so the
+     * palette can express itself the way its author intended.
+     */
+    "--mp-control": solidFill(colors.primary),
+    "--mp-on-control": "#ffffff",
 
     // Derived against BOTH backgrounds, not just `surface`. Blocks set ink on
     // cards (surface) and directly on the canvas (bg), and where those two
     // differ even slightly, deriving against surface alone leaves the ink
     // fractionally short of AA on bg.
-    "--mp-primary-ink": readableOnAll(colors.primary, [colors.bg, colors.surface]),
-    "--mp-secondary-ink": readableOnAll(colors.secondary, [colors.bg, colors.surface]),
+    "--mp-primary-ink": readableOnAll(colors.primary, inkBackgrounds("primary")),
+    "--mp-secondary-ink": readableOnAll(colors.secondary, inkBackgrounds("secondary")),
   };
 }
 

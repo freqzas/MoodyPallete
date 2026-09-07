@@ -56,7 +56,7 @@ export function PricingTiers() {
               </p>
 
               {tier.featured && (
-                <span className="rounded-full bg-mp-primary px-2.5 py-1 text-[10px] font-black uppercase text-mp-on-primary">
+                <span className="rounded-full bg-mp-control px-2.5 py-1 text-[10px] font-black uppercase text-mp-on-control">
                   Popular
                 </span>
               )}

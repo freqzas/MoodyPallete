@@ -204,7 +204,7 @@ export default function PreviewPage() {
                     aria-pressed={selected}
                     className={`rounded-full border px-3 py-2 text-xs font-black transition hover:-translate-y-0.5 ${
                       selected
-                        ? "border-mp-primary bg-mp-primary text-mp-on-primary shadow-lg"
+                        ? "border-mp-control bg-mp-control text-mp-on-control shadow-lg"
                         : "border-mp-primary/25 bg-mp-bg/20 text-mp-text"
                     }`}
                   >
@@ -246,7 +246,7 @@ export default function PreviewPage() {
                       </div>
 
                       {selected && (
-                        <span className="rounded-full bg-mp-primary px-2 py-1 text-[10px] font-black uppercase text-mp-on-primary">
+                        <span className="rounded-full bg-mp-control px-2 py-1 text-[10px] font-black uppercase text-mp-on-control">
                           Selected
                         </span>
                       )}
@@ -278,7 +278,7 @@ export default function PreviewPage() {
                     aria-pressed={selected}
                     className={`rounded-full border px-3.5 py-2 text-xs font-black transition hover:-translate-y-0.5 ${
                       selected
-                        ? "border-mp-primary bg-mp-primary text-mp-on-primary shadow-lg"
+                        ? "border-mp-control bg-mp-control text-mp-on-control shadow-lg"
                         : "border-mp-primary/25 bg-mp-bg/20 text-mp-text"
                     }`}
                   >
