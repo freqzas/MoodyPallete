@@ -10,6 +10,7 @@ import {
 import { COLOR_ROLES, CONTRAST_PAIRS } from "../lib/theme";
 import { MOODS, DEFAULT_MOOD } from "../lib/generate";
 import PaletteExport from "./PaletteExport";
+import Select from "./Select";
 
 const normalizeHex = (value) => toHex(parseHex(value));
 
@@ -130,7 +131,7 @@ export default function PaletteEditor({
   const colors = palette.colors;
 
   return (
-    <div className="grid gap-5">
+    <div className="grid min-w-0 gap-5">
       <div>
         <div className="mb-4 flex items-center justify-between gap-3">
           <p className="text-sm font-black uppercase tracking-[0.2em] text-mp-primary-ink">
@@ -213,18 +214,13 @@ export default function PaletteEditor({
             />
           </label>
 
-          <select
+          <Select
             value={mood}
-            onChange={(event) => setMood(event.target.value)}
-            aria-label="Mood"
-            className="min-w-0 flex-1 rounded-xl border border-mp-primary/25 bg-mp-bg/40 px-3 py-2.5 text-sm font-black text-mp-text outline-none"
-          >
-            {MOODS.map((item) => (
-              <option key={item.id} value={item.id} className="text-black">
-                {item.label}
-              </option>
-            ))}
-          </select>
+            onChange={setMood}
+            ariaLabel="Mood"
+            className="flex-1"
+            options={MOODS.map((item) => ({ value: item.id, label: item.label }))}
+          />
 
           <button
             type="button"

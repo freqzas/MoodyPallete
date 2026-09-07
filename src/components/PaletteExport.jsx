@@ -32,7 +32,7 @@ export default function PaletteExport({ palette, onCopy }) {
   };
 
   return (
-    <div className="rounded-2xl border border-mp-primary/15 bg-mp-bg/20 p-4">
+    <div className="min-w-0 rounded-2xl border border-mp-primary/15 bg-mp-bg/20 p-4">
       <p className="mb-1 text-sm font-black uppercase tracking-[0.2em] text-mp-primary-ink">
         Export
       </p>
@@ -66,7 +66,7 @@ export default function PaletteExport({ palette, onCopy }) {
 
       <pre
         aria-label={`${format.label} export preview`}
-        className="max-h-44 overflow-auto rounded-xl border border-mp-text/10 bg-mp-bg/40 p-3 text-[11px] leading-5 text-mp-muted"
+        className="max-h-44 w-full max-w-full overflow-auto rounded-xl border border-mp-text/10 bg-mp-bg/40 p-3 text-[11px] leading-5 text-mp-muted"
       >
         <code>{text}</code>
       </pre>

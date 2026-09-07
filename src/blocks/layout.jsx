@@ -19,9 +19,9 @@ export function NavBar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <span className="hidden text-sm font-medium text-mp-muted @xl:inline">
+        <Button variant="ghost" className="hidden @xl:inline-block">
           Sign in
-        </span>
+        </Button>
         <Button>Get started</Button>
       </div>
     </nav>

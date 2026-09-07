@@ -12,7 +12,7 @@ export const palettes = [
       primary: "#7dd3fc",
       secondary: "#14b8a6",
       accent: "#67e8f9",
-      button: "#14b8a6",
+      button: "#0e8174",
     },
   },
   {

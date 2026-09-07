@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Reorder, useDragControls, AnimatePresence, motion } from "framer-motion";
 import Footer from "../components/Footer";
 import PaletteEditor from "../components/PaletteEditor";
+import Select from "../components/Select";
 import { palettes } from "../data/palettes";
 import { screens, DEFAULT_SCREEN } from "../data/screens";
 import { blocks as blockRegistry, blockCategories, getBlock, blockMap } from "../blocks";
@@ -213,23 +214,19 @@ export default function StudioPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <select
-              onChange={(event) => loadScreen(event.target.value)}
+            <Select
               value=""
-              aria-label="Start from a preset"
-              className="rounded-xl border border-mp-primary/25 bg-mp-bg/40 px-3 py-2 text-sm font-black text-mp-text outline-none"
-            >
-              <option value="" disabled className="text-black">
-                Start from a preset…
-              </option>
-              {screens.map((screen) => (
-                <option key={screen.id} value={screen.id} className="text-black">
-                  {screen.name}
-                </option>
-              ))}
-            </select>
+              onChange={loadScreen}
+              placeholder="Start from a preset…"
+              ariaLabel="Start from a preset"
+              className="w-52"
+              options={screens.map((screen) => ({
+                value: screen.id,
+                label: screen.name,
+              }))}
+            />
 
-            <div className="flex items-center gap-1 rounded-xl border border-mp-primary/25 p-1">
+            <div className="flex items-center gap-1 rounded-xl border border-mp-text/15 bg-mp-bg/40 p-1">
               {DEVICES.map((item) => (
                 <button
                   key={item.id}
@@ -238,8 +235,8 @@ export default function StudioPage() {
                   aria-pressed={device === item.id}
                   className={`rounded-lg px-3 py-1.5 text-xs font-black transition ${
                     device === item.id
-                      ? "bg-mp-primary text-mp-on-primary"
-                      : "text-mp-muted"
+                      ? "bg-mp-surface text-mp-primary-ink shadow-sm"
+                      : "text-mp-muted hover:text-mp-text"
                   }`}
                 >
                   {item.label}
@@ -259,7 +256,7 @@ export default function StudioPage() {
 
         <div className="grid gap-6 lg:grid-cols-[340px_1fr] lg:items-start">
           <aside
-            className="rounded-[1.75rem] border border-mp-primary/20 p-4 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto"
+            className="min-w-0 rounded-[1.75rem] border border-mp-primary/20 p-4 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto"
             style={{
               background: `linear-gradient(145deg, ${alpha("--mp-surface", 93)}, ${alpha("--mp-bg", 33)})`,
             }}
@@ -302,26 +299,18 @@ export default function StudioPage() {
                 Palette
               </p>
 
-              <select
+              <Select
                 value={isCustom ? "custom" : palette.id}
-                onChange={(event) => {
-                  const next = palettes.find((p) => p.id === event.target.value);
-                  if (next) setPalette(next);
+                onChange={(next) => {
+                  const match = palettes.find((p) => p.id === next);
+                  if (match) setPalette(match);
                 }}
-                aria-label="Palette"
-                className="w-full rounded-xl border border-mp-primary/25 bg-mp-bg/40 px-3 py-2 text-sm font-black text-mp-text outline-none"
-              >
-                {isCustom && (
-                  <option value="custom" className="text-black">
-                    {palette.name}
-                  </option>
-                )}
-                {palettes.map((item) => (
-                  <option key={item.id} value={item.id} className="text-black">
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                ariaLabel="Palette"
+                options={[
+                  ...(isCustom ? [{ value: "custom", label: palette.name }] : []),
+                  ...palettes.map((item) => ({ value: item.id, label: item.name })),
+                ]}
+              />
             </div>
 
             <PaletteEditor
